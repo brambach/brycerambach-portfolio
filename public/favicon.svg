@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="cosmic-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee" /> <!-- Cyan -->
+      <stop offset="50%" stop-color="#60a5fa" /> <!-- Blue -->
+      <stop offset="100%" stop-color="#a855f7" /> <!-- Purple -->
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer Ring (Cosmic Orbit) -->
+  <circle cx="32" cy="32" r="30" stroke="url(#cosmic-gradient)" stroke-width="2" fill="none" opacity="0.8" />
+  
+  <!-- Inner Background (Deep Space) -->
+  <circle cx="32" cy="32" r="28" fill="#050511" opacity="0.9" />
+  
+  <!-- Monogram Text -->
+  <text x="32" y="42" 
+        font-family="sans-serif" 
+        font-weight="bold" 
+        font-size="24" 
+        text-anchor="middle" 
+        fill="url(#cosmic-gradient)" 
+        filter="url(#glow)"
+        letter-spacing="-1">
+    BR
+  </text>
+  
+  <!-- Subtle Star Accents -->
+  <circle cx="15" cy="15" r="1" fill="white" opacity="0.8" />
+  <circle cx="48" cy="50" r="1" fill="white" opacity="0.6" />
+</svg>
