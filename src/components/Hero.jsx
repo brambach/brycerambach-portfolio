@@ -7,8 +7,11 @@ import MagneticButton from '@/components/ui/MagneticButton';
 const Hero = () => {
   const [isHoveringName, setIsHoveringName] = useState(false);
 
-  const handleContact = () => {
-    window.location.href = "mailto:bryce.rambach@gmail.com";
+  const handleScrollToContact = () => {
+    const contactSection = document.getElementById('contact-protocol');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -22,7 +25,7 @@ const Hero = () => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "100%" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative md:col-span-4 lg:col-span-3 h-[50vh] md:h-screen w-full md:w-full border-r border-white/10 overflow-hidden"
+          className="hidden md:block relative md:col-span-4 lg:col-span-3 h-[50vh] md:h-screen w-full md:w-full border-r border-white/10 overflow-hidden"
         >
           {/* Vertical Image Band */}
           <div className="absolute inset-0 w-full h-full grayscale mix-blend-luminosity brightness-75 contrast-125">
@@ -41,7 +44,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Right Column: Massive Typography & Interactive Elements */}
-        <div className="relative md:col-span-8 lg:col-span-9 flex flex-col justify-center px-6 md:px-0 z-20">
+        <div className="relative md:col-span-8 lg:col-span-9 flex flex-col justify-center px-6 md:px-0 z-20 pt-20 md:pt-0 pb-20 md:pb-0">
           
           {/* Massive Overlapping Headline */}
           {/* Negative margin pulls it over the image band on desktop */}
@@ -52,13 +55,13 @@ const Hero = () => {
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           >
             <h1
-              className="font-black text-white leading-[0.8] tracking-tighter uppercase break-words"
-              style={{ fontSize: "clamp(3.5rem, 13vw, 12rem)" }}
+              className="font-black text-white leading-[0.9] md:leading-[0.8] tracking-tighter uppercase break-words"
+              style={{ fontSize: "clamp(2rem, 8vw, 8rem)" }}
               onMouseEnter={() => setIsHoveringName(true)}
               onMouseLeave={() => setIsHoveringName(false)}
             >
                <span className="block">Bryce</span>
-               <span className="block ml-[0.5em] md:ml-[1.5em]">Rambach</span>
+               <span className="block md:ml-[1.5em]">Rambach</span>
             </h1>
           </motion.div>
 
@@ -87,8 +90,8 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.7 }}
           >
             <MagneticButton
-              onClick={handleContact}
-              className="relative px-12 py-6 bg-white text-black text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-gray-200 flex items-center gap-4 group/btn rounded-none shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+              onClick={handleScrollToContact} // Changed onClick to smooth scroll
+              className="relative px-8 md:px-12 py-4 md:py-6 bg-white text-black text-sm md:text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-gray-200 flex items-center gap-4 group/btn rounded-none shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
             >
               Get in touch
               <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-2" />

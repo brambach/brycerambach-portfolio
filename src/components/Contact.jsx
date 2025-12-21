@@ -1,9 +1,44 @@
 
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, ArrowRight, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/customSupabaseClient';
+
+// Extracted Input Component: Defined OUTSIDE the main component to prevent re-renders losing focus
+const EditorialInput = memo(({ label, name, type = "text", value, onChange, disabled }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const hasValue = value.length > 0;
+  const isActive = isFocused || hasValue;
+
+  return (
+    <div className="relative pt-6 pb-2 w-full">
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className="block w-full bg-transparent border-b-2 border-white/30 text-2xl md:text-3xl font-bold text-white py-4 focus:outline-none focus:border-white transition-colors duration-200 placeholder-transparent rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+        placeholder={label}
+        autoComplete="off"
+      />
+      <label
+        className={`absolute left-0 pointer-events-none transition-all duration-300 ease-out font-mono uppercase tracking-widest ${
+          isActive 
+            ? 'top-0 text-xs text-white/60' 
+            : 'top-8 text-xl text-white/40'
+        }`}
+      >
+        {label}
+      </label>
+    </div>
+  );
+});
+
+EditorialInput.displayName = "EditorialInput";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -30,6 +65,7 @@ const Contact = () => {
         variant: "destructive",
         title: "VALIDATION_ERROR",
         description: "Identification (Name) is required.",
+        className: "bg-black border border-red-500 text-red-500" // Bright Red error text
       });
       return false;
     }
@@ -40,6 +76,7 @@ const Contact = () => {
         variant: "destructive",
         title: "VALIDATION_ERROR",
         description: "Invalid frequency format (Email).",
+        className: "bg-black border border-red-500 text-red-500" // Bright Red error text
       });
       return false;
     }
@@ -49,6 +86,7 @@ const Contact = () => {
         variant: "destructive",
         title: "VALIDATION_ERROR",
         description: "Payload (Message) cannot be empty.",
+        className: "bg-black border border-red-500 text-red-500" // Bright Red error text
       });
       return false;
     }
@@ -113,44 +151,13 @@ const Contact = () => {
         variant: "destructive",
         title: "TRANSMISSION_FAILED",
         description: error.message || "Network anomaly detected. Please retry.",
+        className: "bg-black border border-red-500 text-red-500" // Bright Red error text
       });
     }
   };
 
-  const EditorialInput = ({ label, name, type = "text", value, onChange, disabled }) => {
-    const [isFocused, setIsFocused] = useState(false);
-    const hasValue = value.length > 0;
-    const isActive = isFocused || hasValue;
-
-    return (
-      <div className="relative pt-6 pb-2 w-full">
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className="block w-full bg-transparent border-b-2 border-white/30 text-2xl md:text-3xl font-bold text-white py-4 focus:outline-none focus:border-white transition-colors duration-200 placeholder-transparent rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
-          placeholder={label}
-          autoComplete="off"
-        />
-        <label
-          className={`absolute left-0 pointer-events-none transition-all duration-300 ease-out font-mono uppercase tracking-widest ${
-            isActive 
-              ? 'top-0 text-xs text-white/60' 
-              : 'top-8 text-xl text-white/40'
-          }`}
-        >
-          {label}
-        </label>
-      </div>
-    );
-  };
-
   return (
-    <section className="relative bg-black min-h-screen flex flex-col justify-between pt-24 border-t border-white/10">
+    <section id="contact-protocol" className="relative bg-black min-h-screen flex flex-col justify-between pt-24 border-t border-white/10 pb-32 md:pb-0">
       
       <div className="max-w-7xl mx-auto w-full px-6 flex-grow flex flex-col md:flex-row gap-16 md:gap-32">
         
@@ -201,6 +208,7 @@ const Contact = () => {
             className="space-y-12"
           >
             <EditorialInput 
+              key="name-input"
               label="Identify Yourself (Name)" 
               name="name" 
               value={formData.name} 
@@ -209,6 +217,7 @@ const Contact = () => {
             />
             
             <EditorialInput 
+              key="email-input"
               label="Secure Frequency (Email)" 
               name="email" 
               type="email" 
@@ -218,6 +227,7 @@ const Contact = () => {
             />
             
             <EditorialInput 
+              key="message-input"
               label="Mission Brief (Message)" 
               name="message" 
               value={formData.message} 

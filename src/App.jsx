@@ -38,8 +38,8 @@ function App() {
         </div>
       </div>
 
-      {/* Main Content Wrapper */}
-      <div className="relative min-h-screen overflow-x-hidden selection:bg-white selection:text-black bg-transparent">
+      {/* Main Content Wrapper - Ensure normal document flow for scrolling */}
+      <div className="relative w-full overflow-x-hidden selection:bg-white selection:text-black bg-transparent">
         <Hero />
         <About />
         <Projects />
